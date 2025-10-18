@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.Calendar;
 
 public class Stats {
     private int avgBombs, avgTime, gamesWon, logic, misclick, miscount, chance;
@@ -52,8 +55,43 @@ public class Stats {
         }
     }
 
-    public void logGame() {
-
+    public void logGame(int b, int t, int r) throws IOException {
+        Calendar cal = Calendar.getInstance();
+        Minesweeper loggedGame = new Minesweeper(cal.get(Calendar.MONTH), cal.get(Calendar.YEAR), b, t, r);
+        games.add(loggedGame);
+        try (FileWriter log = new FileWriter("games.csv")) {
+            int count = 0;
+            for (Minesweeper game : games) {
+                count++;
+                if (count == games.size()) {
+                    log.write(game.toString());
+                }
+                else {
+                    log.write(game.toString() + "\n");
+                }
+            }
+        }
+        if (topGames.isEmpty()) {
+            topGames.add(loggedGame);
+            try (FileWriter topLog = new FileWriter("top_games.csv")) {
+                topLog.write(loggedGame.toString());
+            }
+        }
+        else if (loggedGame.compareTo(bestGame) == 1 || loggedGame.equals(bestGame)) {
+            topGames.add(loggedGame);
+            try (FileWriter topLog = new FileWriter("top_games.csv")) {
+                int count = 0;
+                for (Minesweeper game : topGames) {
+                    count++;
+                    if (count == topGames.size()) {
+                        topLog.write(game.toString());
+                    }
+                    else {
+                        topLog.write(game.toString() + "\n");
+                    }
+                }
+            }
+        }
     }
 
     public int getAvgBombs() {

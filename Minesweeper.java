@@ -13,31 +13,7 @@ public class Minesweeper implements Comparable<Minesweeper> {
         year = y;
         bombs = b;
         time = t;
-        switch(r) {
-            case 0: myReason = Reason.UNSET; break;
-            case 1: myReason = Reason.WON; break;
-            case 2: myReason = Reason.LOGIC; break;
-            case 3: myReason = Reason.MISCLICK; break;
-            case 4: myReason = Reason.MISCOUNT; break;
-            case 5: myReason = Reason.CHANCE; break;
-            default: break;
-        }
-    }
-
-    public void setMonth(int m) {
-        month = m;
-    }
-
-    public void setYear(int y) {
-        year = y;
-    }
-
-    public void setBombs(int b) {
-        bombs = b;
-    }
-
-    public void setTime(int t) {
-        time = t;
+        setReason(r);
     }
 
     public void setReason(int r) {
